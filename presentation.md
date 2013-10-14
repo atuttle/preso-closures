@@ -225,9 +225,22 @@ foo.cfm:
 Does this output `42`?
 
 
-# Nope.
+# Nope
 
 `Variable FOO is undefined.`
+
+
+# This
+
+
+## Pretty normal for CFML
+
+`this` scope is not in the scope chain.
+
+Wherever you use it, there you are.
+
+Note:
+"this" is not in scope chain; refers to current-component everywhere you use it. No need for "that"-hack.
 
 
 
@@ -338,7 +351,7 @@ By Mark Mandel
 
 ## Underscore.cfc
 
-By Russ ???
+By Russ Spivey
 
 * Mostly-complete port of underscore.js
 
