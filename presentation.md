@@ -244,12 +244,12 @@ Note:
 
 
 
-# Nesting Closures
-
 <img src="inception-wallpaper.jpg" />
 
 Note:
-It is possible and works as you would expect. The inner closure evaluates its closure context as part of the Scope Chain. Part of that closure context is the closure context of the wrapping closure, and so forth, until you've reached outside all nested closures.
+Can you nest closures? **Yes.** Works exactly as you probably expect.
+
+The inner closure evaluates its closure context as part of the Scope Chain. Part of that closure context is the closure context of the wrapping closure, and so forth, until you've reached outside all nested closures.
 
 
 
@@ -332,6 +332,7 @@ for Arrays, Structures, Queries, and Lists.
 
 Note:
 Those are the lines. Reading between them is up to you.
+
 
 
 ## Functional Programming<br/>Libraries for CFML
