@@ -361,6 +361,20 @@ By Russ Spivey
 # Using Closures in JavaScript
 
 
+## Do Much jQuery?
+
+	function doStuff(){
+
+		var theId = "#foo";
+
+		$.get('http://www.google.com', function(data){
+
+			$(theId).html( data );
+
+		});
+	}
+
+
 ## Underscore.js
 
 Filter:
