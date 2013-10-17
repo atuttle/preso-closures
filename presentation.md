@@ -21,21 +21,28 @@ Note:
 A closure is a special type of function. It's a superset of normal functions. A Function _and_...
 
 
-A closure is a function-object -- a function that can be passed as an argument to another function -- that always remembers its context.
+A closure is a function-object
+
+<span class="highlight">-- a function that can be passed as an<br/>argument to another function --</span>
+
+that always remembers its context.
 
 
 
-# Why did we invent them?
+# Why were they invented?
 
-* Invented in 1964 (concept only?)
+* Invented in 1964 for Lambda Calculus (LISP) - Alonzo Church
 * Implemented in Scheme, 1975
 * Functional programming: <span class="highlight">Continuation-passing style</span>
 * Has since become the mark of asynchronous programming
 
 Note:
+- Scheme familiar? Scheme + Self = JS
+- C.P.S. = Callbacks
+- Closures solve problems in other languages: e.g. JS has no private class variables
+- FP becomes popular
+- People want FP = Closures in CFML
 
-* Scheme familiar? JS partly based on it.
-* CPS aka Callbacks
 
 
 
@@ -84,13 +91,10 @@ The Scope Chain is the list of all scopes that ColdFusion will check when you ma
 <span style="color:dodgerblue"><strong>What's Missing?</strong></span>
 
 Note:
-Application, Session, Request, and Server scopes are available but must **always** be explicitly referenced.
+Application, Session, Request, Server = **always** be explicitly referenced
 
-  * 2007: [**Scope Nazi**](http://fusiongrokker.com/post/scope-nazi) ~ bugs caused by not understanding scope chain. I had _no idea how right I was_.
-
-  * 2009: [**Scope Priority Changes in ColdFusion 9**](http://fusiongrokker.com/post/scope-priority-changes-in-coldfusion-9).
-
-  * I could probably do an entire hour presentation on the scope chain alone, but that's not what you're here for. The important thing to remember is that the scope chain is a crucial topic for developers to understand.
+- 2007: [**Scope Nazi**](http://fusiongrokker.com/post/scope-nazi) ~ bugs caused by not understanding scope chain. I had _no idea how right I was_.
+- 2009: [**Scope Priority Changes in ColdFusion 9**](http://fusiongrokker.com/post/scope-priority-changes-in-coldfusion-9).
 
 
 
@@ -143,7 +147,7 @@ So how do closures work, anyway?
 
 ## Scope Chain + Closures
 
-Simply put: Closures _<span class="highlight">add a new scope to the scope chain</span>_.<br/><br/>
+Simply put: Closures _<span class="highlight">add a new scope to the scope chain</span>_.<br/>
 
 1. Function/Thread Local
 1. Attributes (Threads, _NOT_ custom tags)
@@ -263,11 +267,12 @@ The inner closure evaluates its closure context as part of the Scope Chain. Part
 
 # How can I use Closures in my CFML?
 
+
 ## ColdFusion 10 Closure Functions
 
 * ArrayEach, StructEach
 * ArrayFilter, StructFilter, ListFilter
-* ArrayFindAll
+* ArrayFindAll\*, ArrayFindAllNoCase\*
 
 
 ## Array Each
@@ -292,7 +297,9 @@ Prints:
 ## Struct Each
 
 	structEach({ one:1, two:2 }, function(key, value){
+
 		writeOutput( key & ": " & value );
+
 	});
 
 Prints:
@@ -304,7 +311,9 @@ Prints:
 ## Array Filter
 
 	filtered = ArrayFilter([0,1,2,3,4,5,6,7,8,9,10,11,12], function(item){
+
 		return (item % 2 == 0 && item % 3 == 0);
+
 	});
 	writeOutput( arrayToList( filtered ) );
 
@@ -325,8 +334,8 @@ Resulting Array:
 
 	[{ foo: 5 }]
 
+## ColdFusion 11 FP Additions
 
-## ColdFusion 11 Closure Functions
 
 I'm not allowed to sneak any CF11 features &nbsp; :o(
 
@@ -376,10 +385,34 @@ By Russ Spivey
 		var theId = "#foo";
 
 		$.get('http://www.google.com', function(data){
-
-			$(theId).html( data );
-
+			$( theId ).html( data );
 		});
+
+	}
+
+
+## Same thing
+
+	function doStuff(){
+
+		var theId = "#foo";
+
+		$.get('http://www.google.com', function(data){
+			$( theId ).html( data );
+		});
+
+	}
+
+<p></p>
+
+	function doStuff(){
+
+		var theId = "#foo";
+
+		var callback = function(data){ $(theId).html( data ); };
+
+		$.get('http://www.google.com', callback);
+
 	}
 
 
@@ -413,9 +446,8 @@ Reduce:
 =&gt; `21`
 
 
-## Underscore.js
 
-Debounce:
+### Debounce:
 
 	var scrollListener = _.debounce(function(){
 
