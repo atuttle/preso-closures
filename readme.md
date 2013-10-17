@@ -8,3 +8,7 @@ You need to either:
 * clone the repo into an existing website (e.g. localhost)
 
 Essentially: `file:///` = bad, `http://` = good. If you do that, you'll be fine.
+
+### Speaker Notes
+
+Once you've got the presentation running in your browser, hit the `S` key to bring up the speaker notes (if you want them).
