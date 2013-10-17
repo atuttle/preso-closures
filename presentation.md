@@ -5,6 +5,14 @@ fusiongrokker.com
 
 
 
+# Shameless Plug
+
+## Extra-Life
+
+[tinyurl.com/donate-adam](http://tinyurl.com/donate-adam)
+
+
+
 # What is a Closure?
 
 ## More than just a function
@@ -428,4 +436,6 @@ Scroll is a noisy event. Only run when it's been &gt;= 250ms since the last run.
 
 # Thank You
 
-github.com/atuttle/preso-closures
+[github.com/atuttle/preso-closures](https://github.com/atuttle/preso-closures)
+
+Extra-Life: [tinyurl.com/donate-adam](http://tinyurl.com/donate-adam)
