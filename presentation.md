@@ -45,8 +45,11 @@ Note:
 
 
 
+# Context, you say?
 
-# Context?
+Note:
+- Remember: Closure = Function + Context
+- Context? Look at ColdFusion Scopes.
 
 
 # Context: Scopes
@@ -61,9 +64,6 @@ When we run this code, what is returned?
 	Hi, maybe.
 
 Why?
-
-Note:
-What do I mean by context? To answer that, let's look at ColdFusion Scopes.
 
 
 # The Scope Chain
@@ -138,10 +138,15 @@ To answer that, we search the scope chain.
 **On Adobe ColdFusion 10+:** <span class="highlight">Kirk</span> (arguments)<br/>
 **On Railo:** <span class="highlight">Uhura</span> (Local)
 
+Note:
+- Railo refuses to fix this because ACF local scope includes arguments scope
 
 ## So far, no closures
 
 So how do closures work, anyway?
+
+Note:
+- Everything so far was just to demonstrate scope chain
 
 
 
@@ -161,23 +166,18 @@ Simply put: Closures _<span class="highlight">add a new scope to the scope chain
 1. Cookie
 1. Client
 
+<span style="color:dodgerblue"><strong>Why no Query?</strong></span>
+
+Note:
+- ANSWER: Because there's no way to do a query-based output loop (cfoutput, cfloop) inside a closure
+
 
 # What goes in the closure context?
 
 TL;DR: Everything, but...
 
 Note:
-
-Just because you can doesn't mean you should. Everything visible during creation is available at execution.
-
-Best practice for closures: Only use:
-
-1. closure-Local
-1. closure-arguments
-1. creator-local
-1. creator-arguments
-
-If you need more, pass it in!
+- Just because you can doesn't mean you should.
 
 
 # Closure Scope Chain
@@ -187,6 +187,9 @@ If you need more, pass it in!
 1. Creator-Local
 1. Creator-Arguments
 1. Creator-Component-Variables
+
+Note:
+- If you need more, pass it in as arguments!
 
 
 ![](take-this.jpg)
@@ -208,7 +211,7 @@ If you need more, pass it in!
 	}
 
 Note:
-Confused? Just remember a component with a function that returns a closure. Work your way out from the inside.
+It's really, really easy to remember the order
 
 
 
@@ -307,6 +310,9 @@ Prints:
 	ONE: 1
 	TWO: 2
 
+Note:
+- "...EACH" functions give you the opportunity to use every item in a collection
+
 
 ## Array Filter
 
@@ -321,6 +327,9 @@ Prints:
 
 	0,6,12
 
+Note:
+- Instead of using each item, now we filter based on the result of a truth-test callback
+
 
 ## Array Find All
 
@@ -334,6 +343,18 @@ Resulting Array:
 
 	[{ foo: 5 }]
 
+Note:
+- In this form, same as ArrayFilter: truth test callback
+- ArrayFindAll & ArrayFindAllNoCase also take a string as 2nd argument (undocumented) -- this is where "no case" applies
+
+
+## None of these <span class="highlight">require</span> closures
+
+Note:
+FP is about writing utilities that delegate part of complex processes. Often that delegated part is decision making.
+
+
+
 ## ColdFusion 11 FP Additions
 
 
@@ -341,18 +362,38 @@ I'm not allowed to sneak any CF11 features &nbsp; :o(
 
 <p><br/></p>
 
-Bug [#3595198](https://bugbase.adobe.com/index.cfm?event=bug&id=3595198) Requested Map and Reduce
+ColdFusion Bug [#3595198](https://bugbase.adobe.com/index.cfm?event=bug&id=3595198) Requested Map and Reduce
 
 for Arrays, Structures, Queries, and Lists.
 
 <br/>Current Status: "ToTest," Reason: "Fixed."
 
 Note:
-Those are the lines. Reading between them is up to you.
+Those are the lines. Reading between them is left as an exercise for the viewer.
+
+
+# This was my<br/>proposed syntax
+
+
+## Map
+
+	updatedArray = arrayMap([1,2,3], function(elementValue, index, originalArray){
+
+		return elementValue * index;
+
+	});
+
+## Reduce
+
+	sumColB = queryReduce(foo, function(memo = 0, row, originalQuery){
+
+		return memo + row.B;
+
+	});
 
 
 
-## Functional Programming<br/>Libraries for CFML
+## Open Source<br/>Functional Programming<br/>Libraries for CFML
 
 
 ## Sesame
@@ -371,11 +412,19 @@ By Mark Mandel
 
 By Russ Spivey
 
-* Mostly-complete port of underscore.js
+Mostly-complete port of underscore.js
+
+* max
+* find
+* reduce
+* reduceRight
+* zip
+* once
+* ... and much, much more.
 
 
 
-# Using Closures in JavaScript
+## Closures<br/>in JavaScript
 
 
 ## Do Much jQuery?
@@ -418,22 +467,30 @@ By Russ Spivey
 
 ## Underscore.js
 
-Filter:
+Prefix array items:
 
-	var evens = _.filter([0,1,2,3,4,5,6], function( item ){
+	function getGreetings( people ){
+		var prefix = 'hi, ';
 
-		return item % 2 === 0;
+		var greetings = _.map(people, function( item ){
+			return prefix + item;
+		});
 
-	});
+		return greetings;
+	}
 
-	console.log( evens );
+	console.log( getGreetings( ['mom','dad'] ) );
 
-=&gt; `[0, 2, 4, 6]`
+=&gt; `[ 'hi, mom', 'hi, dad' ]`
+
+Note:
+Community has standardized on underscore.js. Most depended on module in NPM, by almost 1k (25%).
 
 
-## Underscore.js
+## Functional Programming:<br/>More than just closures
 
-Reduce:
+
+### Reduce:
 
 	var sum = _.reduce([1,2,3,4,5,6], function( memo, num ){
 
@@ -445,6 +502,10 @@ Reduce:
 
 =&gt; `21`
 
+Note:
+Notice I'm still using underscore.js, but not referencing any external variables.
+
+FP is about writing utilities that delegate some portion of complex processes.
 
 
 ### Debounce:
