@@ -523,6 +523,16 @@ Scroll is a noisy event. Only run when it's been &gt;= 250ms since the last run.
 
 
 
+# Wrapping up
+
+
+## Closures are just functions
+
+
+## All functions are closures
+
+
+
 # Questions?
 
 
