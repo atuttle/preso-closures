@@ -41,6 +41,37 @@ Note:
 - Closures solve problems in other languages: e.g. JS has no private class variables
 - FP becomes popular
 - People want FP = Closures in CFML
+- Very few problems in CFML require closures
+
+
+
+# Closure vs Callback
+
+Note:
+- Most of this presentation is about callbacks
+- Foundation of closures
+- Closures are easy after you get callbacks
+
+
+## Callbacks since CF5
+
+	<cfscript>
+
+		function myCallback(){
+			return "called back!";
+		}
+
+		function do_something_and_call_back( cb ){
+			cb();
+		}
+
+	</cfscript>
+
+	<cfoutput>#do_something_and_call_back( myCallback )#</cfoutput>
+
+
+Note:
+- When CF added UDFs in CF5, this syntax became possible
 
 
 
