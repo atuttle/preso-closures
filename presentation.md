@@ -268,7 +268,7 @@ The inner closure evaluates its closure context as part of the Scope Chain. Part
 
 
 
-# How can I use Closures in my CFML?
+# How can I use Closures\* in my CFML?
 
 
 ## ColdFusion 10 Closure Functions
