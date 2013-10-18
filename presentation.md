@@ -29,12 +29,11 @@ that always remembers its context.
 
 
 
-# Why were they invented?
+# History
 
-* Invented in 1964 for Lambda Calculus (LISP) - Alonzo Church
+* Invented in 1964 - Peter J. Landin
 * Implemented in Scheme, 1975
-* Functional programming: <span class="highlight">Continuation-passing style</span>
-* Has since become the mark of asynchronous programming
+* Work well with Functional Programming's <span class="highlight">Continuation-passing style</span>
 
 Note:
 - Scheme familiar? Scheme + Self = JS
