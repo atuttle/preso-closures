@@ -118,7 +118,7 @@ Note:
 # Closure Example
 
 
-## Pseudocode: Before
+## Multiplier (Callback)
 
 	function times10(n){ return n * 10; }
 
@@ -132,7 +132,7 @@ Note:
 - Pseuedocode because CFML doesn't have syntax like this
 
 
-## After (with closure)
+## Multiplier (closure)
 
 	function times(multiplier){
 		return function(n){
@@ -304,7 +304,7 @@ Just be careful how deep you go. You may never get back out. ;)
 
 
 
-## ColdFusion 10 'Closure' Functions
+## ColdFusion 10 <span class="highlight">'Closure'</span> Functions
 
 * ArrayEach, StructEach
 * ArrayFilter, StructFilter, ListFilter
@@ -399,6 +399,7 @@ Note:
 - ONLY place that the "no case" part of the name applies - not with callback
 
 
+
 ## Real Closures
 
 Curry:
@@ -418,7 +419,8 @@ Curry:
 	}
 
 Note:
-- Copied and condensed from Mark Manel'd Sesame project
+- Copied and condensed from Mark Mandel's Sesame project
+- No need to grok how it works, just showing it uses closures under the hood
 
 
 Using Curry:
@@ -429,15 +431,15 @@ Using Curry:
 
 	wrapper = _curry( orig, ['hi', 'there'] );
 
-	wrapper( 'cfsummit', 'attendees' );
+	greeting = wrapper( 'cfsummit', 'attendees' );
 
 Returns:
 
-	"hi there cfsummit attendees"
+	=> greeting: "hi there cfsummit attendees"
 
 
 
-## ColdFusion 11 Functional Programming Additions
+## ColdFusion 11<br/>Functional Programming Additions
 
 I'm not allowed to sneak any CF11 features &nbsp; :o(
 
@@ -447,7 +449,7 @@ ColdFusion Bug [#3595198](https://bugbase.adobe.com/index.cfm?event=bug&id=35951
 
 for Arrays, Structures, Queries, and Lists.
 
-<br/>Current Status: "ToTest," Reason: "Fixed."
+<br/>Current Status: <span class="highlight">ToTest,</span> Reason: <span class="highlight">Fixed.</span>
 
 Note:
 - Those are the lines. Reading between them is left as an exercise for the viewer.
@@ -481,12 +483,39 @@ Note:
 
 By Mark Mandel
 
-* groupBy
-* unique
-* queryEach
-* times
-* eachParallel
-* ... and much, much more.
+<table width="100%">
+<tr>
+	<td valign="top">
+		<ul>
+			<li>collect</li>
+			<li>collectEntries</li>
+			<li>groupBy</li>
+		</ul>
+	</td>
+	<td valign="top">
+		<ul>
+			<li>queryEach</li>
+			<li>unique</li>
+			<li>curry</li>
+		</ul>
+	</td>
+	<td valign="top">
+		<ul>
+			<li>step</li>
+			<li>times</li>
+			<li>upto</li>
+		</ul>
+	</td>
+	<td valign="top">
+		<ul>
+			<li>fileLineEach</li>
+			<li>eachParallel</li>
+			<li>thread</li>
+			<li>withPool</li>
+		</ul>
+	</td>
+</tr>
+</table>
 
 
 ## Underscore.cfc
@@ -503,47 +532,23 @@ Mostly-complete port of underscore.js
 * once
 * ... and much, much more.
 
+Note:
+- 80 methods in total!
 
 
-## Closures<br/>in JavaScript
+
+## Open Source<br/>Functional Programming<br/>Libraries for JavaScript
 
 
-## Do Much jQuery?
+## jQuery
 
-	function doStuff(){
+	$.get('http://www.google.com', function(data){
+		$( '#myDiv' ).html( data );
+	});
 
-		var theId = "#foo";
-
-		$.get('http://www.google.com', function(data){
-			$( theId ).html( data );
-		});
-
-	}
-
-
-## Same thing
-
-	function doStuff(){
-
-		var theId = "#foo";
-
-		$.get('http://www.google.com', function(data){
-			$( theId ).html( data );
-		});
-
-	}
-
-<p></p>
-
-	function doStuff(){
-
-		var theId = "#foo";
-
-		var callback = function(data){ $(theId).html( data ); };
-
-		$.get('http://www.google.com', callback);
-
-	}
+Note:
+- jQuery is more than just a FP lib, but almost everything you do with it uses FP style
+- Often use of closures adds even more awesome to jQ
 
 
 ## Underscore.js
@@ -562,13 +567,17 @@ Prefix array items:
 
 	console.log( getGreetings( ['mom','dad'] ) );
 
-=&gt; `[ 'hi, mom', 'hi, dad' ]`
+Logs:
+
+	=> [ 'hi, mom', 'hi, dad' ]
 
 Note:
-Community has standardized on underscore.js. Most depended on module in NPM, by almost 1k (25%).
+- JS Community standard for FP utility functions
+- Most depended on module in NPM, by almost 1k (25%)
 
 
-## Functional Programming:<br/>More than just closures
+
+## More FP Examples
 
 
 ### Reduce:
@@ -581,12 +590,9 @@ Community has standardized on underscore.js. Most depended on module in NPM, by 
 
 	console.log( sum );
 
-=&gt; `21`
+Logs:
 
-Note:
-- Notice I'm still using underscore.js, but not referencing any external variables.
-
-- FP is about writing utilities that delegate some portion of complex processes.
+	=> 21
 
 
 ### Debounce:
@@ -600,7 +606,23 @@ Note:
 	$( window ).on( 'scroll', scrollListener );
 
 Note:
-Scroll is a noisy event. Only run when it's been &gt;= 250ms since the last run.
+- Scroll is a noisy event. Only run when it's been &gt;= 250ms since the last run.
+
+
+### Each:
+
+	data = [
+		{ id: 'name', value: 'Adam Tuttle' }
+		,{ id: 'age', value: 31 }
+		,{ id: 'pets', value: 2 }
+	];
+
+	_.each(data, function(el, ix, arr){
+		$(el.id).val(el.value);
+	});
+
+Note:
+- Pre-filling a form from an ajax response
 
 
 
@@ -616,7 +638,7 @@ Scroll is a noisy event. Only run when it's been &gt;= 250ms since the last run.
 ## Callbacks != Closures
 
 
-## Scope your variables
+## Remember the Scope Chain
 
 
 ## Remember the Dungeon Map
