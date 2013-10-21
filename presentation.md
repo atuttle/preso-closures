@@ -256,21 +256,23 @@ Note:
 
 ## Complex Scope Chain
 
-	<cffunction name="callMe">
-		<cfargument name="name" />
-		<cfset local.name = "Uhura" />
+	function callMe( name )
+		local.name = "Uhura";
 
-		<cfset local.q = queryNew(
-			"name", "varchar", [{ name: "Spock" }] ) />
+		local.q = queryNew("name", "varchar", [{ name: "Spock" }]);
 
-		<cfoutput query="local.q">
-			<cfreturn name />
-		</cfoutput>
-	</cffunction>
+		output query="local.q" {
+			return name;
+		}
+	}
 
-	<cfset variables.person = callMe( "Kirk" ) />
+	variables.person = callMe( "Kirk" );
 
 What's the value of `variables.person`?
+
+Note:
+- Showing some new syntax from CF11: output{}
+- previously impossible to have a query-scoping loop in script
 
 
 ## What's the result?
