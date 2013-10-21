@@ -21,6 +21,31 @@ Note:
 - Foundation of closures
 
 
+## jQuery async callback
+
+	$.get(
+		'http://api.openweathermap.org/data/2.5/weather?q=Las%20Vegas,%20NV'
+		, function(data){
+			console.log(data)
+		}
+	);
+
+
+## Node.js async callback
+
+	var fs = require('fs');
+
+	fs.readFile('data.txt', function(err, data){
+		if (err){
+			console.log('there was an error');
+			console.error(err);
+			return;
+		}
+		console.log('file read complete');
+		console.log(data);
+	});
+
+
 ## Callbacks since CF5
 
 	<cfscript>
