@@ -184,7 +184,20 @@ Note:
 
 
 
+# Closures Require Scope Chain
 
+
+## Often you <span class="highlight">must</span> make un-scoped variable references
+
+	function matches(str){
+		return function(item){
+			return (str == item);
+		};
+	}
+
+Note:
+- Could we write `return (arguments.str == arguments.item)`? NO!
+- Thus, you must have at least a basic understanding of...
 
 
 # The Scope Chain
@@ -203,13 +216,13 @@ Note:
 
 ## ColdFusion's Scope Chain
 
-1. Function/Thread Local
+1. Local (Function/Thread)
 1. Attributes (Threads, _NOT_ custom tags)
-1. <span class="highlight">+Closure (if applicable)</span>
+1. <span class="highlight">Closure (if applicable)</span>
 1. Query
 1. Variables
 1. CGI
-1. CFFile
+1. (CF)File
 1. Url
 1. Form
 1. Cookie
@@ -219,6 +232,7 @@ Note:
 
 Note:
 - Application, Session, Request, Server = **always** be explicitly referenced
+- Adam Cameron: Listen all coders: quit vilifying Cold Fusion's useless features: CFForm, CFPod
 
 
 ## Simplest Scope Chain Example
