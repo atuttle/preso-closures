@@ -68,18 +68,10 @@ Note:
 - It's rare to see this in CF code: callbacks are typically a sign of async... CFML is synchronous
 
 
-## Node.js async callbacks
+## Anonymous Functions since CF10
 
-	var fs = require('fs');
-
-	fs.readFile('data.txt', function(err, data){
-		if (err){
-			console.log('there was an error');
-			console.error(err);
-			return;
-		}
-		console.log('file read complete');
-		console.log(data);
+	ArrayEach([1,2,3], function(item){
+		writeOutput( item );
 	});
 
 
