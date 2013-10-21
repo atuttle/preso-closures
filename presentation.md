@@ -155,19 +155,35 @@ Note:
 # Another Example
 
 
-## Create a truth-test
+## Async
 
-	function matches(str){
-		return function(ss){
-			return (s == ss);
+	function defer(job, onSuccess, onFailure, onTerminate){
+		var deferThread = "";
+		cfthread.status = "Running";
+
+		thread name="deferThread" action="run" attributecollection=arguments {
+			try {
+				successData.result = job();
+				cfthread.status = "Completed";
+				onSuccess(successData);
+			} catch (any e){
+				cfthread.status = "Failed";
+				onFailure(e);
+			}
+		}
+		return {
+			getStatus = function(){ return cfthread.status; }
+			,terminate = function(){
+				if (cfthread.status != "Running"){ return; }
+				thread name="deferThread" action="terminate";
+				cfthread.status = "Terminated";
+				onTerminate();
+			}
 		};
 	}
 
-	['Bender','Goldy','Findi','Oliver'].filter( matches('Bender') );
 
-Result:
 
-	=> ['Bender']
 
 
 
