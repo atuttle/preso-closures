@@ -162,10 +162,10 @@ Note:
 ## Async
 
 	function defer(job, onSuccess, onFailure, onTerminate){
-		var deferThread = "";
+		var threadName = CreateUUID();
 		cfthread.status = "Running";
 
-		thread name="deferThread" action="run" attributecollection=arguments {
+		thread name="#threadName#" action="run" attributecollection=arguments {
 			try {
 				successData.result = job();
 				cfthread.status = "Completed";
@@ -175,8 +175,12 @@ Note:
 				onFailure(e);
 			}
 		}
+
 		return {
 			getStatus = function(){ return cfthread.status; }
+
+			,getThreadName = function(){ return threadName; }
+
 			,terminate = function(){
 				if (cfthread.status != "Running"){ return; }
 				thread name="deferThread" action="terminate";
