@@ -659,7 +659,7 @@ Note:
 	];
 
 	_.each(data, function(el, ix, arr){
-		$(el.id).val(el.value);
+		$('#' + el.id).val(el.value);
 	});
 
 Note:
