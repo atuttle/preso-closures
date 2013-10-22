@@ -485,6 +485,7 @@ for Arrays, Structures, Queries, and Lists.
 
 Note:
 - Those are the lines. Reading between them is left as an exercise for the viewer.
+- A birdie tells me map and reduce have been added for array, struct, and list -- NOT query.
 
 
 # This was my<br/>proposed syntax
