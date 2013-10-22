@@ -11,6 +11,9 @@ fusiongrokker.com
 
 [tinyurl.com/donate-adam](http://tinyurl.com/donate-adam)
 
+Note:
+- Last year I beat my goal of $512, so I doubled my goal this year to $1024
+
 
 
 # Closure vs Callback
