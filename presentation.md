@@ -107,13 +107,14 @@ A closure is a function-object
 
 <span class="highlight">-- a function that can be passed as an<br/>argument to another function --</span>
 
-that always remembers its context.
+that always remembers its context
 
 ---
 
-All functions are closures.
+All functions are closures
 
 Note:
+- Function object = UDF
 - Context? We'll talk about that in a bit.
 
 
