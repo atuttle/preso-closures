@@ -97,10 +97,10 @@ Note:
 
 # What is a Closure?
 
-## More than just a function
+## Special feature of all functions
 
 Note:
-A closure is a special type of function. It's a superset of normal functions. A Function _and_...
+- In a language that supports closures, all UDFs are closures
 
 
 A closure is a function-object
