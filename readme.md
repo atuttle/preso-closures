@@ -1,4 +1,8 @@
-## Running this presentation
+## View it online:
+
+http://fusiongrokker.com/p/closures
+
+## Running this presentation locally
 
 Because of the way the presentation assets are setup, you can not just double-click index.html and go.
 
