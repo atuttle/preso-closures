@@ -1,7 +1,8 @@
 # Open Yourself To Closures
 
-@AdamTuttle<br/>
-fusiongrokker.com
+##fusiongrokker.com/p/closures
+
+@AdamTuttle
 
 
 
@@ -133,7 +134,7 @@ Result:
 	=> tens: [10,20,30,40,50]
 
 Note:
-- Pseuedocode because CFML doesn't have syntax like this
+- CF doesn't have a map function like this until CF11 (more later)
 
 
 ## Multiplier (closure)
@@ -224,6 +225,7 @@ Note:
 
 ## ColdFusion's Scope Chain
 
+1. Arguments (Function)
 1. Local (Function/Thread)
 1. Attributes (Threads, _NOT_ custom tags)
 1. <span class="highlight">Closure (if applicable)</span>
@@ -307,11 +309,11 @@ Note:
 	component {
 		variables.A = 5;
 
-		function closure_creator( A = 4 ) {
-			local.A = 3;
+		function closure_creator( A = 3 ) {
+			local.A = 4;
 
-			return function( A = 2 ){
-				local.A = 1;
+			return function( A = 1 ){
+				local.A = 2;
 				return A;
 			}
 		}
@@ -427,11 +429,11 @@ Note:
 
 	filtered = ArrayFindAll(data, "Adam");
 
-	=> ["Adam"]
+	=> [1]
 
 	filtered = ArrayFindAllNoCase(data, "Adam");
 
-	=> ["Adam","ADAM","adam","aDaM"]
+	=> [1,2,3,4]
 
 Note:
 - Undocumented!
@@ -444,7 +446,7 @@ Note:
 
 Curry:
 
-	function _curry(func, args){
+	function curry(func, args){
 		var argMap = {};
 		var counter = 1;
 		ArrayEach(args, function(it) { argMap[counter++] = it; });
@@ -469,7 +471,7 @@ Using Curry:
 		return "#a# #b# #c# #d#";
 	}
 
-	wrapper = _curry( orig, ['hi', 'there'] );
+	wrapper = curry( orig, ['hi', 'there'] );
 
 	greeting = wrapper( 'cfsummit', 'attendees' );
 
@@ -481,19 +483,16 @@ Returns:
 
 ## ColdFusion 11<br/>Functional Programming Additions
 
-I'm not allowed to sneak any CF11 features &nbsp; :o(
+Map & Reduce for Arrays, Structs, and Lists
 
 <p><br/></p>
 
-ColdFusion Bug [#3595198](https://bugbase.adobe.com/index.cfm?event=bug&id=3595198) Requested Map and Reduce
+CF Bug [#3595198](https://bugbase.adobe.com/index.cfm?event=bug&id=3595198) Requested Map &amp; Reduce
 
-for Arrays, Structures, Queries, and Lists.
-
-<br/>Current Status: <span class="highlight">ToTest,</span> Reason: <span class="highlight">Fixed.</span>
+for Arrays, Structures, <span class="highlight">Queries</span>, and Lists.
 
 Note:
-- Those are the lines. Reading between them is left as an exercise for the viewer.
-- A birdie tells me map and reduce have been added for array, struct, and list -- NOT query.
+- Adobe says they don't see the value in query map/reduce... yet. I'm going to try to convince them.
 
 
 # This was my<br/>proposed syntax
@@ -514,6 +513,19 @@ Note:
 		return memo + row.B;
 
 	});
+
+
+## Built-in functions now 1st Class
+
+CF10:
+
+	var ucaseNames = arrayEach(['Stroz','Ferguson','Cunningham'], function(i){
+		return ucase(i);
+	});
+
+CF11:
+
+	var ucaseNames = arrayEach(['Stroz','Ferguson','Cunningham'], ucase);
 
 
 
@@ -687,11 +699,11 @@ Note:
 	component {
 		variables.A = 5;
 
-		function closure_creator( A = 4 ) {
-			local.A = 3;
+		function closure_creator( A = 3 ) {
+			local.A = 4;
 
-			return function( A = 2 ){
-				local.A = 1;
+			return function( A = 1 ){
+				local.A = 2;
 				return A;
 			}
 		}
