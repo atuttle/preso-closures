@@ -309,7 +309,7 @@ Note:
 	component {
 		variables.A = 5;
 
-		function closure_creator( A = 3 ) {
+		function closure_creator( A = 3 ){
 			local.A = 4;
 
 			return function( A = 1 ){
@@ -391,16 +391,15 @@ Note:
 
 ## Array Filter
 
-	filtered = ArrayFilter([0,1,2,3,4,5,6,7], function(item){
+	filtered = ArrayFilter(["cfsummit","las vegas"], function(item){
 
-		return (item % 2 == 0 && item % 3 == 0);
+		return len(item) > 8;
 
 	});
-	writeOutput( arrayToList( filtered ) );
 
-Prints:
+Resulting Array:
 
-	0,6
+	=> [2]
 
 Note:
 - Instead of using each item, now we filter based on the result of a truth-test callback
@@ -408,15 +407,15 @@ Note:
 
 ## Array Find All
 
-	data = [{ foo: 5 },{ foo: 15 }];
+	data = [{ age: 5 },{ age: 15 }];
 
 	filtered = ArrayFindAll(data, function(item){
-		return item.foo < 10;
+		return item.age < 10;
 	});
 
 Resulting Array:
 
-	[{ foo: 5 }]
+	=> [1]
 
 Note:
 - In this form, same as ArrayFilter: truth test callback
@@ -699,7 +698,7 @@ Note:
 	component {
 		variables.A = 5;
 
-		function closure_creator( A = 3 ) {
+		function closure_creator( A = 3 ){
 			local.A = 4;
 
 			return function( A = 1 ){
