@@ -6,14 +6,23 @@
 
 
 
-# Shameless Plug
+# About Me
 
-## Extra-Life
+## Mucho JavaScript
 
-[tinyurl.com/donate-adam](http://tinyurl.com/donate-adam)
+<img src="app1.webp" width="25%" style="border:none" />
+<img src="app2.webp" width="25%" style="border:none" />
+<img src="app3.webp" width="25%" style="border:none" />
 
 Note:
-- Last year I beat my goal of $512, so I doubled my goal this year to $1024
+- Currently I have 7 PhoneGap powered mobile apps in the Android and iOS app stores, and I have 1 new app and 2 updates coming out in early June. Probably 90% or more of my time is coding JavaScript.
+
+
+<video src="skydive.webm" preload autoplay loop width="100%"></video>
+<br/>May 3rd, 2014
+
+Note:
+When I'm not coding or speaking, I like to jump out of airplanes.
 
 
 
@@ -101,7 +110,7 @@ Note:
 ## Special feature of all functions
 
 Note:
-- In a language that supports closures, all UDFs are closures
+- **In a language that supports closures**, all UDFs are closures
 
 
 A closure is a function-object
@@ -112,11 +121,27 @@ that always remembers its context
 
 ---
 
-All functions are closures
+All functions are closures\*
 
 Note:
+- **In languages that support closures**, all UDFs are closures.
 - Function object = UDF
 - Context? We'll talk about that in a bit.
+
+
+# CFML Metaphor
+
+	component hint="not a closure, JUST A METAPHOR!" {
+		variables = { ... };
+
+		function execute(){ ... }
+	}
+
+Note:
+- This CFML object is not a closure, but it should give you an idea of what a closure is.
+- It's an object: you can pass it as an argument to another function
+- It's a function: you can execute it
+- Whatever the variables were when it was created, they will remain (except globals)
 
 
 
@@ -163,32 +188,32 @@ Note:
 ## Async
 
 	function defer(job, onSuccess, onFailure, onTerminate){
-		var threadName = CreateUUID();
-		cfthread.status = "Running";
+	  var threadName = CreateUUID();
+	  cfthread.status = "Running";
 
-		thread name="#threadName#" action="run" attributecollection=arguments {
-			try {
-				successData.result = job();
-				cfthread.status = "Completed";
-				onSuccess(successData);
-			} catch (any e){
-				cfthread.status = "Failed";
-				onFailure(e);
-			}
-		}
+	  thread name="#threadName#" action="run" attributecollection=arguments {
+	    try {
+	      successData.result = job();
+	      cfthread.status = "Completed";
+	      onSuccess(successData);
+	    } catch (any e){
+	      cfthread.status = "Failed";
+	      onFailure(e);
+	    }
+	  }
 
-		return {
-			getStatus = function(){ return cfthread.status; }
+	  return {
+	    getStatus = function(){ return cfthread.status; }
 
-			,getThreadName = function(){ return threadName; }
+	    ,getThreadName = function(){ return threadName; }
 
-			,terminate = function(){
-				if (cfthread.status != "Running"){ return; }
-				thread name="deferThread" action="terminate";
-				cfthread.status = "Terminated";
-				onTerminate();
-			}
-		};
+	    ,terminate = function(){
+	      if (cfthread.status != "Running"){ return; }
+	      thread name="deferThread" action="terminate";
+	      cfthread.status = "Terminated";
+	      onTerminate();
+	    }
+	  };
 	}
 
 
@@ -205,6 +230,7 @@ Note:
 	}
 
 Note:
+- When I was first learning about closures, this drove me nuts because I HATE unscoped variable references
 - Could we write `return (arguments.str == arguments.item)`? NO!
 - Thus, you must have at least a basic understanding of...
 
@@ -241,7 +267,7 @@ Note:
 <span style="color:dodgerblue"><strong>See anything missing?</strong></span>
 
 Note:
-- Application, Session, Request, Server = **always** be explicitly referenced
+- Application, Session, Request, This, and Server **must always** be explicitly referenced
 - Adam Cameron: Listen all coders: quit vilifying Cold Fusion's useless features: CFForm, CFPod
 
 
@@ -295,45 +321,70 @@ Note:
 
 
 
-# Confused?
-Note: This can be a weird topic to wrap your head around.
+# Clear As Mud
+
+Note:
+- This can be a weird topic to wrap your head around.
 
 
 ![](take-this.jpg)
 Note:
-- Here's something visual that will make it clear
+- Here's something visual that will make it clearer
 
 
-# Dungeon Map:
+# Dungeon Map (Railo)
 
 	component {
-		variables.A = 5;
+		variables.FOO = 5;
 
-		function closure_creator( A = 3 ){
-			local.A = 4;
+		function closure_creator( FOO = 4 ){
+			local.FOO = 3;
 
-			return function( A = 1 ){
-				local.A = 2;
-				return A;
+			return function( FOO = 2 ){
+				local.FOO = 1;
+				return FOO;
 			}
 		}
 	}
 
 Note:
-It's really, really easy to remember the order this way
+- The integer values here are in the order that Railo will look for them. Notice how they start at the inner-most line and work their way out.
+- Personally I feel this makes more sense than ACF.
+
+
+# Dungeon Map (ACF)
+
+	component {
+		variables.FOO = 5;
+
+		function closure_creator( FOO = 3 ){
+			local.FOO = 4;
+
+			return function( FOO = 1 ){
+				local.FOO = 2;
+				return FOO;
+			}
+		}
+	}
+
+Note:
+- Note that the local variables and arguments order is swapped in both the inner closure as well as the function that's returning the closure.
 
 
 
 # This
 Note:
-- Familiar with closures in JS = wondering about `this`
+- If you're familiar with closures in JS but not yet for CFML, you're probably wondering about the `this` scope.
 
 
 ## Pretty normal for CFML
 
 The `this` scope is not in the scope chain.
 
-<br/>Component `this` scope, if any.
+<br/>Component `this` scope.
+
+Note:
+- If you reference `this` then you'll get the component's THIS scope, if there is one available
 
 
 
@@ -351,6 +402,14 @@ Just be careful how deep you go. You may never get back out. ;)
 * ArrayEach, StructEach
 * ArrayFilter, StructFilter, ListFilter
 * ArrayFindAll<span class="highlight">\*</span>, ArrayFindAllNoCase<span class="highlight">\*</span>
+<br/><br/>
+
+## ColdFusion 11 <span class="highlight">'Closure'</span> Additions
+
+* isClosure
+* ArrayReduce, StructReduce, ListReduce
+* ArrayMap, StructMap, ListMap
+* <span class="highlight">NO:</span> QueryReduce, QueryMap, QueryEach, QueryFilter! :(
 
 
 ## Array Each
@@ -391,7 +450,7 @@ Note:
 
 ## Array Filter
 
-	filtered = ArrayFilter(["cfsummit","las vegas"], function(item){
+	filtered = ArrayFilter(["cf.Objective()","NCDevCon"], function(item){
 
 		return len(item) > 8;
 
@@ -399,10 +458,11 @@ Note:
 
 Resulting Array:
 
-	=> [2]
+	=> [1]
 
 Note:
 - Instead of using each item, now we filter based on the result of a truth-test callback
+- **See anything wrong here?** Instead of getting the item back, we get its index. (LAME!)
 
 
 ## Array Find All
@@ -418,6 +478,7 @@ Resulting Array:
 	=> [1]
 
 Note:
+- Again we only get the indexes of the items that pass the truth test
 - In this form, same as ArrayFilter: truth test callback
 - don't be fooled by **Array Find All No Case**!
 
@@ -440,14 +501,61 @@ Note:
 - ONLY place that the "no case" part of the name applies - not with callback
 
 
+## ArrayReduce
+
+Combine values in some meaningful way
+
+	complexData = [ {a: 4}, {a: 18}, {a: 51} ];
+
+	function reducer(prev, element){
+		return prev + element.a;
+	}
+
+	sum = arrayReduce( complexData, reducer, 0 );
+
+	=> 73
+
+Note:
+- This is flattened out to make it easier to read and to see the initial value
+
+
+## ArrayReduce (inline)
+
+	complexData = [ {a: 4}, {a: 18}, {a: 51} ];
+
+	sum = arrayReduce( complexData, function(prev, element){
+		return prev + element.a;
+	}, 0 );
+
+	=> 73
+
+
+## ArrayMap
+
+	complexData = [ {a: 4}, {a: 18}, {a: 51} ];
+
+	newArray = arrayMap( complexData, function(item){
+		return item.a;
+	}, 0 );
+
+	=> [4, 18, 51]
+
+
 
 ## Real Closures
 
-Curry:
+None of those things <span class="highlight">require</span> the use of closures.
+
+Here's something that does
+
+Note:
+- Jumping from anonymous function usage to real closures does take the complexity up a notch, so pay close attention.
+
+
+##Curry:
 
 	function curry(func, args){
-		var argMap = {};
-		var counter = 1;
+		var argMap = {}; var counter = 1;
 		ArrayEach(args, function(it) { argMap[counter++] = it; });
 		return function(){
 			var newArgs = StructCopy(argMap);
@@ -461,70 +569,36 @@ Curry:
 
 Note:
 - Copied and condensed from Mark Mandel's Sesame project
-- No need to grok how it works, just showing it uses closures under the hood
+- No need to grok how it works, just showing it returns a function (a closure)
 
 
 Using Curry:
 
 	function orig(a,b,c,d){
-		return "#a# #b# #c# #d#";
+		return a & " " & b & " " & c & " " & d;
 	}
 
-	wrapper = curry( orig, ['hi', 'there'] );
+	hi_there = curry( orig, ['hi', 'there'] );
 
-	greeting = wrapper( 'cfsummit', 'attendees' );
+	greeting = hi_there( 'cf.Objective()', 'attendees' );
 
 Returns:
 
-	=> greeting: "hi there cfsummit attendees"
+	=> greeting: "hi there cf.Objective() attendees"
 
-
-
-## ColdFusion 11<br/>Functional Programming Additions
-
-Map & Reduce for Arrays, Structs, and Lists
-
-<p><br/></p>
-
-CF Bug [#3595198](https://bugbase.adobe.com/index.cfm?event=bug&id=3595198) Requested Map &amp; Reduce
-
-for Arrays, Structures, <span class="highlight">Queries</span>, and Lists.
-
-Note:
-- Adobe says they don't see the value in query map/reduce... yet. I'm going to try to convince them.
-
-
-# This was my<br/>proposed syntax
-
-
-## Map
-
-	updated = arrayMap([1,2,3], function(elValue, ix, origArray){
-
-		return elValue * ix;
-
-	});
-
-## <br/>Reduce
-
-	sumColB = queryReduce(foo, function(memo = 0, row, origQuery){
-
-		return memo + row.B;
-
-	});
 
 
 ## Built-in functions now 1st Class
 
 CF10:
 
-	var ucaseNames = arrayEach(['Stroz','Ferguson','Cunningham'], function(i){
+	var NAMES = arrayEach(['Stroz','Ferguson','Cunningham'], function(i){
 		return ucase(i);
 	});
 
 CF11:
 
-	var ucaseNames = arrayEach(['Stroz','Ferguson','Cunningham'], ucase);
+	var NAMES = arrayEach(['Stroz','Ferguson','Cunningham'], ucase);
 
 
 
@@ -665,7 +739,7 @@ Note:
 
 	data = [
 		{ id: 'name', value: 'Adam Tuttle' }
-		,{ id: 'age', value: 31 }
+		,{ id: 'age', value: 32 }
 		,{ id: 'pets', value: 2 }
 	];
 
@@ -684,8 +758,10 @@ Note:
 ## Closures are just functions
 
 
-## All functions are closures
+## All<span class="highlight">*</span> functions are closures
 
+Note:
+- **In languages that support them** all UDFs are closures
 
 ## Callbacks != Closures
 
@@ -718,6 +794,6 @@ Note:
 
 [github.com/atuttle/preso-closures](https://github.com/atuttle/preso-closures)
 
-Extra-Life: [tinyurl.com/donate-adam](http://tinyurl.com/donate-adam)
+[FusionGrokker.com](https://fusiongrokker.com)
 
 Please fill out session surveys!
