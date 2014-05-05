@@ -81,7 +81,7 @@ Note:
 - It's rare to see this in CF code: callbacks are typically a sign of async... CFML is synchronous
 
 
-## Anonymous Functions since CF10
+## Closures + Anon Functions since CF10
 
 	ArrayEach([1,2,3], function(item){
 		writeOutput( item );
@@ -127,6 +127,17 @@ Note:
 - **In languages that support closures**, all UDFs are closures.
 - Function object = UDF
 - Context? We'll talk about that in a bit.
+
+
+## What?
+
+CF has supported callbacks since CF5.
+
+CF10 added closure support.
+
+
+Note:
+- The difference is context. Before CF10, context was not included.
 
 
 # CFML Metaphor
