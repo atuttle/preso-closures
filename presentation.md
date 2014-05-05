@@ -348,6 +348,7 @@ Note:
 	}
 
 Note:
+- This is a visual map of the schope chain.
 - The integer values here are in the order that Railo will look for them. Notice how they start at the inner-most line and work their way out.
 - Personally I feel this makes more sense than ACF.
 
